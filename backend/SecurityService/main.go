@@ -42,9 +42,51 @@ func logVisitorHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(LogVisitorResponse{Message: "Visitor logged successfully"})
 }
 
+func notifyResidentHandler(w http.ResponseWriter, r *http.Request) {
+	var req LogVisitorRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	log.Printf("Push notification sent to resident of Flat %s for visitor %s", req.FlatNumber, req.VisitorName)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(LogVisitorResponse{Message: "Notification sent"})
+}
+
+type VisitorActionRequest struct {
+	VisitorID string `json:"visitorId"`
+}
+
+func approveVisitorHandler(w http.ResponseWriter, r *http.Request) {
+	var req VisitorActionRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Printf("Visitor %s approved by resident.", req.VisitorID)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(LogVisitorResponse{Message: "Visitor approved"})
+}
+
+func denyVisitorHandler(w http.ResponseWriter, r *http.Request) {
+	var req VisitorActionRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Printf("Visitor %s denied by resident.", req.VisitorID)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(LogVisitorResponse{Message: "Visitor denied"})
+}
+
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/log-visitor", logVisitorHandler).Methods("POST")
+	r.HandleFunc("/notify-resident", notifyResidentHandler).Methods("POST")
+	r.HandleFunc("/approve-visitor", approveVisitorHandler).Methods("POST")
+	r.HandleFunc("/deny-visitor", denyVisitorHandler).Methods("POST")
 
 	log.Println("SecurityService listening at http://localhost:3002")
 	log.Fatal(http.ListenAndServe(":3002", r))

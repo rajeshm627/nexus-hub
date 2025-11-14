@@ -9,14 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:nexushub/main.dart';
+import 'package:nexushub/screens/security_gate_screen.dart';
 
 void main() {
-  testWidgets('Login screen smoke test', (WidgetTester tester) async {
+  testWidgets('Security gate screen smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const MaterialApp(home: SecurityGateScreen()));
 
-    // Verify that our login screen has a text field and a button.
-    expect(find.byType(TextFormField), findsOneWidget);
-    expect(find.widgetWithText(ElevatedButton, 'Get OTP'), findsOneWidget);
+    // Verify that our security gate screen has two buttons.
+    expect(find.widgetWithText(ElevatedButton, 'Log Visitor'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'View Log'), findsOneWidget);
   });
 }
