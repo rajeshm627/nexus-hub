@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nexushub/screens/visitor_approval_screen.dart';
+import 'package:nexushub/screens/announcements_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -20,14 +20,11 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const VisitorApprovalScreen(
-                      visitorName: 'John Doe',
-                      flatNumber: 'A-101',
-                    ),
+                    builder: (context) => const AnnouncementsScreen(),
                   ),
                 );
               },
-              child: const Text('Simulate Visitor Arrival'),
+              child: const Text('View Announcements'),
             ),
           ],
         ),

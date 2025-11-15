@@ -8,16 +8,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:nexushub/main.dart';
-import 'package:nexushub/screens/security_gate_screen.dart';
+import 'package:nexushub/screens/announcements_screen.dart';
 
 void main() {
-  testWidgets('Security gate screen smoke test', (WidgetTester tester) async {
+  testWidgets('Announcements screen smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MaterialApp(home: SecurityGateScreen()));
+    await tester.pumpWidget(const MaterialApp(home: AnnouncementsScreen()));
 
-    // Verify that our security gate screen has two buttons.
-    expect(find.widgetWithText(ElevatedButton, 'Log Visitor'), findsOneWidget);
-    expect(find.widgetWithText(ElevatedButton, 'View Log'), findsOneWidget);
+    // Verify that our announcements screen has a title and a floating action button.
+    expect(find.text('Announcements'), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
   });
 }
